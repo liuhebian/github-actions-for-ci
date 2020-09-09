@@ -26,8 +26,11 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
           name: webpack artifacts
-          path: public/
+          path: public
+          
+          
   test:
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -38,10 +41,9 @@ jobs:
     - uses: actions/download-artifact@master
       with: 
         name: webpack artifacts
-        path: public/
+        path: public
     - name: npm install, and test
       run: |
-        needs: build
         npm test
       env:
         CI: true
